@@ -1,32 +1,31 @@
 package resp
 
 import (
-	"net/http"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // Resp 返回
 type Resp struct {
-	Code int 
-	Msg  string
-	Data interface{}
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
-
 // Error 错误返回
-func Error(ctx *gin.Context, code int, message string, data ...interface {}) {
-	 resp(ctx, 0, message, data...)
+func Error(ctx *gin.Context, code int, message string, data ...interface{}) {
+	resp(ctx, code, message, data...)
 }
 
 // Success 成功返回
-func Success(ctx *gin.Context,code int, message string, data ...interface{}) {
-	resp(ctx, code, message, data ...)
+func Success(ctx *gin.Context, message string, data ...interface{}) {
+	resp(ctx, 0, message, data...)
 }
 
 func resp(ctx *gin.Context, code int, message string, data ...interface{}) {
 	resp := Resp{
 		Code: code,
-		Msg: message,
+		Msg:  message,
 		Data: data,
 	}
 
@@ -35,6 +34,8 @@ func resp(ctx *gin.Context, code int, message string, data ...interface{}) {
 	if len(data) == 1 {
 		resp.Data = data[0]
 	}
+
+	// 根据code返回Http状态码
 
 	ctx.JSON(http.StatusOK, resp)
 

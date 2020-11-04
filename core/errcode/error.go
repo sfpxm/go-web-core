@@ -6,6 +6,8 @@ import "log"
 // 同时Error和code、msg保持对应的关系
 // 实际返回的时候返回Error
 //
+const ()
+
 var codes = map[int]string{}
 
 // Error 错误码
